@@ -2,40 +2,28 @@ import React from 'react';
 import '../css/weather-app.css';
 import Days from './Days';
 import DetailedForecast from './DetailedForecast';
-import sampleCity from '../sample-city';
+// import sampleCity from '../sample-city';
+import PropTypes from 'prop-types';
 
-class WeatherApp extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      city: [],
-      currentDay:{}
-    }
-    this.updateCurrentDay = this.updateCurrentDay.bind(this);
-  }
-  componentWillMount() {
-    this.setState({
-      city: sampleCity,
-      currentDay: sampleCity[0]
-    });
-  }
-  updateCurrentDay(day){
-    this.setState({
-      currentDay: day
-    });
-  }
-  render() {
-    return (
-      <main>
-        <Days
-          cityState={ this.props.match.params.weatherId }
-          data={ this.state }
-          updateCurrentDay={ this.updateCurrentDay }
-        />
-        <DetailedForecast currentDay={ this.state.currentDay } />
-      </main>
-    )
-  }
+const WeatherApp = (props) => {
+  return (
+    <main>
+      <Days cityState={ props.match.params.weatherId }
+        data={ props }
+      />
+      <DetailedForecast currentDay={ props.currentDay } />
+    </main>
+  )
+}
+
+WeatherApp.propTypes = {
+  city: PropTypes.array.isRequired,
+  currentDay: PropTypes.object.isRequired,
+  getFiveDayForecast: PropTypes.func.isRequired,
+  getSelectedDay: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 }
 
 export default WeatherApp;
